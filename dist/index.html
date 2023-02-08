@@ -27,7 +27,7 @@
             </div>
           </span>
           Enter City:</label>
-        <input type="text" class="city__form" placeholder="Vancouver">
+        <input type="text" class="city__form" placeholder="Vancouver" required="">
       </form>
     </header>
 
@@ -37,27 +37,58 @@
           <div class="left__today__information">
             <div class="today__city">Vancouver</div>
             <div class="today__description">Few clouds</div>
-            <div class="today__date">Tuesday, 8th Feb 2023, 5:00</div>
+            <div class="today__date">Tuesday, 8th Feb 2023</div>
             <div class="today__temperature">22ºC</div>
             <div class="today__icon"></div>
           </div>
           <div class="right__today__information">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-temperature-feelsLike" width="24" height="24" viewbox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M10 13.5a4 4 0 1 0 4 0v-8.5a2 2 0 0 0 -4 0v8.5"></path>
+              <line x1="10" y1="9" x2="14" y2="9"></line>
+            </svg>
             <div class="today__feelslike__container">
               <div class="today__feelslike__label">Feels like</div>
               <div class="today__feelslike__val">24C</div>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-humid" width="24" height="24" viewbox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M6.8 11a6 6 0 1 0 10.396 0l-5.197 -8l-5.2 8z"></path>
+              <path d="M6 14h12"></path>
+              <path d="M7.305 17.695l3.695 -3.695"></path>
+              <path d="M10.26 19.74l5.74 -5.74l-5.74 5.74z"></path>
+            </svg>
             <div class="today__humidity__container">
               <div class="today__humidity__label">Humidity</div>
               <div class="today__humidity__val">65%</div>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-temperature-min" width="24" height="24" viewbox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M8 13.5a4 4 0 1 0 4 0v-8.5a2 2 0 0 0 -4 0v8.5"></path>
+              <line x1="8" y1="9" x2="12" y2="9"></line>
+              <line x1="16" y1="9" x2="22" y2="9"></line>
+            </svg>
             <div class="today__temp__min__container">
               <div class="today__temp__min__label">Minimum Temperature</div>
               <div class="today__temp__min__val">20ºC</div>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-temperature-max" width="24" height="24" viewbox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M8 13.5a4 4 0 1 0 4 0v-8.5a2 2 0 0 0 -4 0v8.5"></path>
+              <line x1="8" y1="9" x2="12" y2="9"></line>
+              <line x1="16" y1="9" x2="22" y2="9"></line>
+              <line x1="19" y1="6" x2="19" y2="12"></line>
+            </svg>
             <div class="today__temp__max__container">
               <div class="today__temp__max__label">Maximum Temperature</div>
               <div class="today__temp__max__val">28ºC</div>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-wind" width="24" height="24" viewbox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M5 8h8.5a2.5 2.5 0 1 0 -2.34 -3.24"></path>
+              <path d="M3 12h15.5a2.5 2.5 0 1 1 -2.34 3.24"></path>
+              <path d="M4 16h5.5a2.5 2.5 0 1 1 -2.34 3.24"></path>
+            </svg>
             <div class="today__windspeed__container">
               <div class="today__windspeed__label">Wind Speed</div>
               <div class="today__windspeed__val">24 km/h</div>

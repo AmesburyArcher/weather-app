@@ -11,10 +11,11 @@ const timeout = function (s) {
 export const getJSON = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+    if (res.status === 404) throw new Error('Location not found');
 
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };

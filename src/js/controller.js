@@ -16,7 +16,11 @@ const controlWeatherToday = async function () {
 
     // Display weather info from weatherInfoView
     weatherInfoView.render(model.state.weatherSameday, model.state.unit);
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+
+    weatherInfoView.renderError(err);
+  }
 };
 
 const controlUnit = function () {
