@@ -1,5 +1,5 @@
 import { getJSON } from './helpers';
-import { API_URL_TODAY, API_URL_5DAY, API_KEY } from './config';
+import { API_URL_TODAY, API_URL_5DAY, API_KEY, API_ICON_URL } from './config';
 
 export const state = {
   weatherSameday: {},
@@ -20,6 +20,7 @@ const createWeatherSameDay = function (data) {
       tempMin: main.temp_min,
     },
     weather: {
+      icon: data.weather[0].icon,
       curWeather: data.weather[0].main,
       description: data.weather[0].description,
       windSpeed: data.wind.speed,

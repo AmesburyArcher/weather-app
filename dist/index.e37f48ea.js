@@ -615,6 +615,7 @@ const createWeatherSameDay = function(data) {
             tempMin: main.temp_min
         },
         weather: {
+            icon: data.weather[0].icon,
             curWeather: data.weather[0].main,
             description: data.weather[0].description,
             windSpeed: data.wind.speed,
@@ -697,11 +698,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_KEY", ()=>API_KEY);
 parcelHelpers.export(exports, "API_URL_TODAY", ()=>API_URL_TODAY);
 parcelHelpers.export(exports, "API_URL_5DAY", ()=>API_URL_5DAY);
+parcelHelpers.export(exports, "API_ICON_URL", ()=>API_ICON_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 parcelHelpers.export(exports, "KELVIN", ()=>KELVIN);
 const API_KEY = "bae51e29487cd04db12441e4113bb4e1";
 const API_URL_TODAY = "https://api.openweathermap.org/data/2.5/weather?";
 const API_URL_5DAY = "https://api.openweathermap.org/data/2.5/forecast?";
+const API_ICON_URL = "http://openweathermap.org/img/wn/";
 const TIMEOUT_SEC = 10;
 const KELVIN = 273.15;
 
@@ -755,8 +758,10 @@ class WeatherInfoViewToday extends (0, _viewDefault.default) {
             <div class="today__description">${this._data.weather.description}</div>
             <div class="today__date">${formatted}</div>
             <div class="today__temperature">${(unit === "C" ? this._data.temperature.temp - (0, _config.KELVIN) : (this._data.temperature.temp - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
-            <div class="today__icon">SOME ICON</div>
-          </div>
+            <div class="today__icon">
+              <img src="${0, _config.API_ICON_URL}${this._data.weather.icon}@2x.png" alt="weather-icon">
+            </div>
+            </div>
           <div class="right__today__information">
             <div class="today__feelslike__container">
               <div class="today__feelslike__label">Feels like</div>

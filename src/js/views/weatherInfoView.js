@@ -1,5 +1,5 @@
 import View from './View';
-import { KELVIN } from '../config';
+import { API_ICON_URL, KELVIN } from '../config';
 
 class WeatherInfoViewToday extends View {
   _parentElement = document.querySelector('.today__information');
@@ -22,8 +22,12 @@ class WeatherInfoViewToday extends View {
               ? this._data.temperature.temp - KELVIN
               : (this._data.temperature.temp - KELVIN) * (9 / 5) + 32
             ).toFixed(1)}º${unit}</div>
-            <div class="today__icon">SOME ICON</div>
-          </div>
+            <div class="today__icon">
+              <img src="${API_ICON_URL}${
+      this._data.weather.icon
+    }@2x.png" alt="weather-icon">
+            </div>
+            </div>
           <div class="right__today__information">
             <div class="today__feelslike__container">
               <div class="today__feelslike__label">Feels like</div>
