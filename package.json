@@ -1,0 +1,25 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmesburyArcher/weather-app.git"
+  },
+  "author": "Max Corazza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AmesburyArcher/weather-app/issues"
+  },
+  "homepage": "https://github.com/AmesburyArcher/weather-app#readme",
+  "devDependencies": {
+    "core-js": "^3.27.2",
+    "parcel": "^2.8.3",
+    "prettier": "2.8.3",
+    "regenerator-runtime": "^0.13.11"
+  }
+}

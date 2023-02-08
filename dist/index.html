@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="/index.731c83f9.css">
+    <script src="/index.e37f48ea.js" defer=""></script>
+  </head>
+  <body>
+    <header class="header">
+      <button class="unit__toggle">ºC</button>
+      <h1 class="header__title">Allo World Weather</h1>
+      <form class="location__form">
+        <label class="label__form">
+          <span class="label__tooltip">
+            <div class="label__tooltip__text">
+              Format:
+              <div>a) City</div>
+              <div>b) City, CountryCode</div>
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" viewbox="0 0 800 800" class="cloud__svg">
+                <g fill="hsl(157, 11%, 89%)" stroke-width="11" stroke="#191dff" id="cloud">
+                  <path d="M 500 400 A  48 48 0 1 1 300 350 A  48 48 0 1 1 250 300 A  48 48 0 1 1 350 250 A  48 48 0 1 1 500 200 A  48 48 0 1 1 600 250 A  48 48 0 1 1 500 400 Z" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+              </svg>
+            </div>
+          </span>
+          Enter City:</label>
+        <input type="text" class="city__form" placeholder="Vancouver">
+      </form>
+    </header>
+
+    <main>
+      <div class="main__container">
+        <div class="today__information">
+          <div class="left__today__information">
+            <div class="today__city">Vancouver</div>
+            <div class="today__description">Few clouds</div>
+            <div class="today__date">Tuesday, 8th Feb 2023, 5:00</div>
+            <div class="today__temperature">10C</div>
+            <div class="today__icon"><i class="wi wi-day-sunny"></i></div>
+          </div>
+          <div class="right__today__information">
+            <div class="today__feelslike__container">
+              <div class="today__feelslike__label">Feels like</div>
+              <div class="today__feelslike__val">24C</div>
+            </div>
+            <div class="today__humidity__container">
+              <div class="today__humidity__label">Humidity</div>
+              <div class="today__humidity__val">65%</div>
+            </div>
+            <div class="today__chance__rain__container">
+              <div class="today__chance__rain__label">Chance of Rain</div>
+              <div class="today__chance__rain__val">30%</div>
+            </div>
+            <div class="today__windspeed__container">
+              <div class="today__windspeed__label">Wind Speed</div>
+              <div class="today__windspeed__val">24 km/h</div>
+            </div>
+          </div>
+        </div>
+        <div class="other__days__information">Rest of days</div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer__information">
+        Created by
+        <a class="footer__link" href="https://github.com/AmesburyArcher">Max Corazza</a>
+      </div>
+    </footer>
+  </body>
+</html>
