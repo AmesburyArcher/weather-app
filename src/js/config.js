@@ -4,3 +4,4 @@ export const API_URL_5DAY = 'https://api.openweathermap.org/data/2.5/forecast?';
 export const API_ICON_URL = 'http://openweathermap.org/img/wn/';
 export const TIMEOUT_SEC = 10;
 export const KELVIN = 273.15;
+export const TIMESLOTS_VISIBLE = 4;

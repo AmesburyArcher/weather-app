@@ -1,12 +1,18 @@
 import { getJSON, convertDate } from './helpers';
-import { API_URL_TODAY, API_URL_5DAY, API_KEY, API_ICON_URL } from './config';
+import {
+  API_URL_TODAY,
+  API_URL_5DAY,
+  API_KEY,
+  API_ICON_URL,
+  TIMESLOTS_VISIBLE,
+} from './config';
 
 export const state = {
   weatherSameday: {},
   weatherFiveDays: {},
-  weatherFiveDaysDOM: [],
   unit: 'C',
   page: 1,
+  resPerPage: TIMESLOTS_VISIBLE,
 };
 
 const createWeatherSameDay = function (data) {
@@ -69,9 +75,18 @@ export const getWeather = async function (city, country = null) {
 
     const data_5_days = await getJSON(url_5_days);
     state.weatherFiveDays = createWeatherFiveDays(data_5_days);
-    console.log(state.weatherFiveDays);
+    //Update state of page
+    state.page = 1;
   } catch (err) {
     console.log(err);
     throw err;
   }
+};
+
+export const getTimeslotsPerPage = function (page = state.page) {
+  state.page = page;
+
+  const start = (page - 1) * state.resPerPage;
+  const end = page * state.resPerPage;
+  return state.weatherFiveDays.hourlyForecast.slice(start, end);
 };

@@ -3,6 +3,7 @@ import weatherInfoView from './views/weatherInfoView.js';
 import weatherInfoFiveDayView from './views/weatherInfoFiveDayView.js';
 import inputView from './views/inputView.js';
 import unitView from './views/unitView.js';
+import paginationView from './views/paginationView.js';
 
 const controlWeather = async function () {
   try {
@@ -19,12 +20,13 @@ const controlWeather = async function () {
     weatherInfoView.render(model.state.weatherSameday, model.state.unit);
     //Display weather forecast for 5 days
     weatherInfoFiveDayView.render(
-      model.state.weatherFiveDays,
+      model.getTimeslotsPerPage(),
       model.state.unit
     );
+    // Render page buttons
+    paginationView.render(model.state.page);
   } catch (err) {
     console.log(err);
-
     weatherInfoView.renderError(err);
   }
 };

@@ -567,6 +567,8 @@ var _inputViewJs = require("./views/inputView.js");
 var _inputViewJsDefault = parcelHelpers.interopDefault(_inputViewJs);
 var _unitViewJs = require("./views/unitView.js");
 var _unitViewJsDefault = parcelHelpers.interopDefault(_unitViewJs);
+var _paginationViewJs = require("./views/paginationView.js");
+var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 const controlWeather = async function() {
     try {
         // Get search information from input view
@@ -580,7 +582,9 @@ const controlWeather = async function() {
         // Display weather info for today
         (0, _weatherInfoViewJsDefault.default).render(_modelJs.state.weatherSameday, _modelJs.state.unit);
         //Display weather forecast for 5 days
-        (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.state.weatherFiveDays, _modelJs.state.unit);
+        (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.getTimeslotsPerPage(), _modelJs.state.unit);
+        // Render page buttons
+        (0, _paginationViewJsDefault.default).render(_modelJs.state.page);
     } catch (err) {
         console.log(err);
         (0, _weatherInfoViewJsDefault.default).renderError(err);
@@ -600,19 +604,20 @@ const init = function() {
 };
 init();
 
-},{"./model.js":"Y4A21","./views/weatherInfoView.js":"cPxLr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/inputView.js":"bVPnB","./views/unitView.js":"5cjTw","./views/weatherInfoFiveDayView.js":"2WTwq"}],"Y4A21":[function(require,module,exports) {
+},{"./model.js":"Y4A21","./views/weatherInfoView.js":"cPxLr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/inputView.js":"bVPnB","./views/unitView.js":"5cjTw","./views/weatherInfoFiveDayView.js":"2WTwq","./views/paginationView.js":"6z7bi"}],"Y4A21":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "getWeather", ()=>getWeather);
+parcelHelpers.export(exports, "getTimeslotsPerPage", ()=>getTimeslotsPerPage);
 var _helpers = require("./helpers");
 var _config = require("./config");
 const state = {
     weatherSameday: {},
     weatherFiveDays: {},
-    weatherFiveDaysDOM: [],
     unit: "C",
-    page: 1
+    page: 1,
+    resPerPage: (0, _config.TIMESLOTS_VISIBLE)
 };
 const createWeatherSameDay = function(data) {
     const { main  } = data;
@@ -673,11 +678,18 @@ const getWeather = async function(city, country = null) {
         const url_5_days = `${(0, _config.API_URL_5DAY)}q=${city}${country !== null ? `,${country}` : ""}&appid=${(0, _config.API_KEY)}`;
         const data_5_days = await (0, _helpers.getJSON)(url_5_days);
         state.weatherFiveDays = createWeatherFiveDays(data_5_days);
-        console.log(state.weatherFiveDays);
+        //Update state of page
+        state.page = 1;
     } catch (err) {
         console.log(err);
         throw err;
     }
+};
+const getTimeslotsPerPage = function(page = state.page) {
+    state.page = page;
+    const start = (page - 1) * state.resPerPage;
+    const end = page * state.resPerPage;
+    return state.weatherFiveDays.hourlyForecast.slice(start, end);
 };
 
 },{"./helpers":"hGI1E","./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
@@ -741,12 +753,14 @@ parcelHelpers.export(exports, "API_URL_5DAY", ()=>API_URL_5DAY);
 parcelHelpers.export(exports, "API_ICON_URL", ()=>API_ICON_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 parcelHelpers.export(exports, "KELVIN", ()=>KELVIN);
+parcelHelpers.export(exports, "TIMESLOTS_VISIBLE", ()=>TIMESLOTS_VISIBLE);
 const API_KEY = "bae51e29487cd04db12441e4113bb4e1";
 const API_URL_TODAY = "https://api.openweathermap.org/data/2.5/weather?";
 const API_URL_5DAY = "https://api.openweathermap.org/data/2.5/forecast?";
 const API_ICON_URL = "http://openweathermap.org/img/wn/";
 const TIMEOUT_SEC = 10;
 const KELVIN = 273.15;
+const TIMESLOTS_VISIBLE = 4;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -1002,19 +1016,40 @@ class WeatherInfoFiveDayView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".other__days__information");
     _generateMarkup() {
         const unit = this._extraParam;
-        return this._data.hourlyForecast.map((entry)=>`
+        return this._data.map((entry)=>`
         <div class="other__day__timeslot">
             <div class="other__day__date">${entry.date}</div>
               <div class="other__day__curWeather">${entry.curWeather}</div>
               <div class="other__day__description">${entry.description}</div>
-              <div class="other__day__temperature">${(unit === "C" ? entry.temp - (0, _config.KELVIN) : (entry.temp - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
-              <div class="other__day__feelsLike">${(unit === "C" ? entry.feelsLike - (0, _config.KELVIN) : (entry.feelsLike - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
+              <div class="other__day__temperature">Temperature: ${(unit === "C" ? entry.temp - (0, _config.KELVIN) : (entry.temp - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
+              <div class="other__day__feelsLike">Feels like: ${(unit === "C" ? entry.feelsLike - (0, _config.KELVIN) : (entry.feelsLike - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
         </div>
     `).join("");
     }
 }
 exports.default = new WeatherInfoFiveDayView();
 
-},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../config":"k5Hzs"}]},["d8XZh","aenu9"], "aenu9", "parcelRequirebbde")
+},{"./View":"5cUXS","../config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6z7bi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+class PaginationView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(".pagination__container");
+    _generateMarkup() {
+        console.log("reached");
+        return `
+    <div class="pagination__container>
+        <div class="pagination__container">
+            <button class="pagBTNLeft">Left</button>
+            <button class="pagBTNRight">Right</button>
+        </div>
+    </div>
+    `;
+    }
+}
+exports.default = new PaginationView();
+
+},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["d8XZh","aenu9"], "aenu9", "parcelRequirebbde")
 
 //# sourceMappingURL=index.e37f48ea.js.map
