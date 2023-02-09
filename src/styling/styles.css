@@ -205,6 +205,20 @@ main {
 
 .other__days__information {
   height: 30%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.other__day__timeslot {
+  display: flex;
+  flex-direction: column;
+
+  color: var(--colour-light-1);
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid black;
+  border-radius: 16px;
 }
 
 .icon {

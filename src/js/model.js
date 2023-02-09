@@ -1,10 +1,12 @@
-import { getJSON } from './helpers';
+import { getJSON, convertDate } from './helpers';
 import { API_URL_TODAY, API_URL_5DAY, API_KEY, API_ICON_URL } from './config';
 
 export const state = {
   weatherSameday: {},
   weatherFiveDays: {},
+  weatherFiveDaysDOM: [],
   unit: 'C',
+  page: 1,
 };
 
 const createWeatherSameDay = function (data) {
@@ -35,7 +37,7 @@ const createWeatherFiveDays = function (data) {
     location: data.city.name,
     hourlyForecast: data.list.map(entry => {
       return {
-        date: entry.dt_txt,
+        date: convertDate(entry.dt_txt),
         clouds: entry.clouds,
         feelsLike: entry.main.feels_like,
         temp: entry.main.temp,
@@ -67,6 +69,7 @@ export const getWeather = async function (city, country = null) {
 
     const data_5_days = await getJSON(url_5_days);
     state.weatherFiveDays = createWeatherFiveDays(data_5_days);
+    console.log(state.weatherFiveDays);
   } catch (err) {
     console.log(err);
     throw err;

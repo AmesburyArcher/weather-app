@@ -1,9 +1,10 @@
 import * as model from './model.js';
 import weatherInfoView from './views/weatherInfoView.js';
+import weatherInfoFiveDayView from './views/weatherInfoFiveDayView.js';
 import inputView from './views/inputView.js';
 import unitView from './views/unitView.js';
 
-const controlWeatherToday = async function () {
+const controlWeather = async function () {
   try {
     // Get search information from input view
     const query = inputView.getQuery();
@@ -14,13 +15,22 @@ const controlWeatherToday = async function () {
     await model.getWeather(city, country);
     console.log(model.state.weatherSameday);
 
-    // Display weather info from weatherInfoView
+    // Display weather info for today
     weatherInfoView.render(model.state.weatherSameday, model.state.unit);
+    //Display weather forecast for 5 days
+    weatherInfoFiveDayView.render(
+      model.state.weatherFiveDays,
+      model.state.unit
+    );
   } catch (err) {
     console.log(err);
 
     weatherInfoView.renderError(err);
   }
+};
+
+const controlWeatherFiveDay = function () {
+  weatherInfoFiveDayView.render(model.state.weatherFiveDays, model.state.unit);
 };
 
 const controlUnit = function () {
@@ -30,7 +40,7 @@ const controlUnit = function () {
 };
 
 const init = function () {
-  inputView.addHandler(controlWeatherToday);
+  inputView.addHandler(controlWeather);
   unitView.addHandler(controlUnit);
 };
 

@@ -199,6 +199,19 @@ main {
 
 .other__days__information {
   height: 30%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: grid;
+}
+
+.other__day__timeslot {
+  color: var(--colour-light-1);
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 16px;
+  flex-direction: column;
+  gap: .75rem;
+  padding: .75rem;
+  display: flex;
 }
 
 .icon {

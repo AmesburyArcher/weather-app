@@ -561,11 +561,13 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _modelJs = require("./model.js");
 var _weatherInfoViewJs = require("./views/weatherInfoView.js");
 var _weatherInfoViewJsDefault = parcelHelpers.interopDefault(_weatherInfoViewJs);
+var _weatherInfoFiveDayViewJs = require("./views/weatherInfoFiveDayView.js");
+var _weatherInfoFiveDayViewJsDefault = parcelHelpers.interopDefault(_weatherInfoFiveDayViewJs);
 var _inputViewJs = require("./views/inputView.js");
 var _inputViewJsDefault = parcelHelpers.interopDefault(_inputViewJs);
 var _unitViewJs = require("./views/unitView.js");
 var _unitViewJsDefault = parcelHelpers.interopDefault(_unitViewJs);
-const controlWeatherToday = async function() {
+const controlWeather = async function() {
     try {
         // Get search information from input view
         const query = (0, _inputViewJsDefault.default).getQuery();
@@ -575,12 +577,17 @@ const controlWeatherToday = async function() {
         // Send search information to model to retreive weather info
         await _modelJs.getWeather(city, country);
         console.log(_modelJs.state.weatherSameday);
-        // Display weather info from weatherInfoView
+        // Display weather info for today
         (0, _weatherInfoViewJsDefault.default).render(_modelJs.state.weatherSameday, _modelJs.state.unit);
+        //Display weather forecast for 5 days
+        (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.state.weatherFiveDays, _modelJs.state.unit);
     } catch (err) {
         console.log(err);
         (0, _weatherInfoViewJsDefault.default).renderError(err);
     }
+};
+const controlWeatherFiveDay = function() {
+    (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.state.weatherFiveDays, _modelJs.state.unit);
 };
 const controlUnit = function() {
     const currentUnit = _modelJs.state.unit;
@@ -588,12 +595,12 @@ const controlUnit = function() {
     return _modelJs.state.unit;
 };
 const init = function() {
-    (0, _inputViewJsDefault.default).addHandler(controlWeatherToday);
+    (0, _inputViewJsDefault.default).addHandler(controlWeather);
     (0, _unitViewJsDefault.default).addHandler(controlUnit);
 };
 init();
 
-},{"./model.js":"Y4A21","./views/weatherInfoView.js":"cPxLr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/inputView.js":"bVPnB","./views/unitView.js":"5cjTw"}],"Y4A21":[function(require,module,exports) {
+},{"./model.js":"Y4A21","./views/weatherInfoView.js":"cPxLr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/inputView.js":"bVPnB","./views/unitView.js":"5cjTw","./views/weatherInfoFiveDayView.js":"2WTwq"}],"Y4A21":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
@@ -603,7 +610,9 @@ var _config = require("./config");
 const state = {
     weatherSameday: {},
     weatherFiveDays: {},
-    unit: "C"
+    weatherFiveDaysDOM: [],
+    unit: "C",
+    page: 1
 };
 const createWeatherSameDay = function(data) {
     const { main  } = data;
@@ -636,7 +645,7 @@ const createWeatherFiveDays = function(data) {
         location: data.city.name,
         hourlyForecast: data.list.map((entry)=>{
             return {
-                date: entry.dt_txt,
+                date: (0, _helpers.convertDate)(entry.dt_txt),
                 clouds: entry.clouds,
                 feelsLike: entry.main.feels_like,
                 temp: entry.main.temp,
@@ -664,6 +673,7 @@ const getWeather = async function(city, country = null) {
         const url_5_days = `${(0, _config.API_URL_5DAY)}q=${city}${country !== null ? `,${country}` : ""}&appid=${(0, _config.API_KEY)}`;
         const data_5_days = await (0, _helpers.getJSON)(url_5_days);
         state.weatherFiveDays = createWeatherFiveDays(data_5_days);
+        console.log(state.weatherFiveDays);
     } catch (err) {
         console.log(err);
         throw err;
@@ -674,6 +684,7 @@ const getWeather = async function(city, country = null) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+parcelHelpers.export(exports, "convertDate", ()=>convertDate);
 var _config = require("./config");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -694,6 +705,31 @@ const getJSON = async function(url) {
     } catch (err) {
         throw err;
     }
+};
+const convertDate = function(date_string) {
+    let date = new Date(date_string);
+    return `${[
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ][date.getDay()]} ${date.getDate()} ${[
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ][date.getMonth()]} ${date_string.slice(11, 16)}`;
 };
 
 },{"./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
@@ -956,6 +992,29 @@ class UnitView extends (0, _viewDefault.default) {
 }
 exports.default = new UnitView();
 
-},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["d8XZh","aenu9"], "aenu9", "parcelRequirebbde")
+},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2WTwq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _config = require("../config");
+class WeatherInfoFiveDayView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(".other__days__information");
+    _generateMarkup() {
+        const unit = this._extraParam;
+        return this._data.hourlyForecast.map((entry)=>`
+        <div class="other__day__timeslot">
+            <div class="other__day__date">${entry.date}</div>
+              <div class="other__day__curWeather">${entry.curWeather}</div>
+              <div class="other__day__description">${entry.description}</div>
+              <div class="other__day__temperature">${(unit === "C" ? entry.temp - (0, _config.KELVIN) : (entry.temp - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
+              <div class="other__day__feelsLike">${(unit === "C" ? entry.feelsLike - (0, _config.KELVIN) : (entry.feelsLike - (0, _config.KELVIN)) * 1.8 + 32).toFixed(1)}º${unit}</div>
+        </div>
+    `).join("");
+    }
+}
+exports.default = new WeatherInfoFiveDayView();
+
+},{"./View":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../config":"k5Hzs"}]},["d8XZh","aenu9"], "aenu9", "parcelRequirebbde")
 
 //# sourceMappingURL=index.e37f48ea.js.map
