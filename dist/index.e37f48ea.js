@@ -575,10 +575,12 @@ const controlWeather = async function() {
         const query = (0, _inputViewJsDefault.default).getQuery();
         const city = query[0];
         const country = query[1];
+        // Clear current contents
         (0, _weatherInfoViewJsDefault.default).renderSpinner();
+        (0, _weatherInfoFiveDayViewJsDefault.default).clear();
+        (0, _paginationViewJsDefault.default).clear();
         // Send search information to model to retreive weather info
         await _modelJs.getWeather(city, country);
-        console.log(_modelJs.state.weatherSameday);
         // Display weather info for today
         (0, _weatherInfoViewJsDefault.default).render(_modelJs.state.weatherSameday, _modelJs.state.unit);
         //Display weather forecast for 5 days
@@ -589,9 +591,6 @@ const controlWeather = async function() {
         console.log(err);
         (0, _weatherInfoViewJsDefault.default).renderError(err);
     }
-};
-const controlWeatherFiveDay = function() {
-    (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.state.weatherFiveDays, _modelJs.state.unit);
 };
 const controlUnit = function() {
     const currentUnit = _modelJs.state.unit;
@@ -670,6 +669,8 @@ const createWeatherFiveDays = function(data) {
 };
 const getWeather = async function(city, country = null) {
     try {
+        //Update state of page
+        state.page = 1;
         // Get same day weather information
         const url = `${(0, _config.API_URL_TODAY)}q=${city}${country !== null ? `,${country}` : ""}&appid=${(0, _config.API_KEY)}`;
         const data = await (0, _helpers.getJSON)(url);
@@ -678,8 +679,6 @@ const getWeather = async function(city, country = null) {
         const url_5_days = `${(0, _config.API_URL_5DAY)}q=${city}${country !== null ? `,${country}` : ""}&appid=${(0, _config.API_KEY)}`;
         const data_5_days = await (0, _helpers.getJSON)(url_5_days);
         state.weatherFiveDays = createWeatherFiveDays(data_5_days);
-        //Update state of page
-        state.page = 1;
     } catch (err) {
         console.log(err);
         throw err;
@@ -938,10 +937,10 @@ class View {
     _extraParam;
     render(data, extraParam = null) {
         if (!data) return this.renderError();
+        this.clear();
         this._data = data;
         this._extraParam = extraParam;
         const markup = this._generateMarkup();
-        this.clear();
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     renderSpinner() {
@@ -953,6 +952,7 @@ class View {
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     clear() {
+        console.log(this._parentElement);
         this._parentElement.innerHTML = "";
     }
     renderError(message = this._errorMessage) {

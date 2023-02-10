@@ -60,6 +60,8 @@ const createWeatherFiveDays = function (data) {
 
 export const getWeather = async function (city, country = null) {
   try {
+    //Update state of page
+    state.page = 1;
     // Get same day weather information
     const url = `${API_URL_TODAY}q=${city}${
       country !== null ? `,${country}` : ''
@@ -75,8 +77,6 @@ export const getWeather = async function (city, country = null) {
 
     const data_5_days = await getJSON(url_5_days);
     state.weatherFiveDays = createWeatherFiveDays(data_5_days);
-    //Update state of page
-    state.page = 1;
   } catch (err) {
     console.log(err);
     throw err;

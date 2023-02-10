@@ -37,7 +37,8 @@ body {
       top/9px 9px no-repeat,
     conic-gradient(#000 30%, var(--colour-blue-2));
   animation: spin 0.5s infinite linear;
-  position: absolute;
+  grid-column: 1 / 3;
+  place-self: center;
 }
 
 .spinner::after {
@@ -178,8 +179,8 @@ main {
 .today__information {
   position: relative;
   height: 60%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   color: var(--colour-light-1);
 }
 
@@ -200,6 +201,7 @@ main {
 }
 
 .right__today__information {
+  justify-self: end;
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;

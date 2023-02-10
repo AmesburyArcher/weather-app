@@ -11,14 +11,17 @@ const controlWeather = async function () {
     const query = inputView.getQuery();
     const city = query[0];
     const country = query[1];
+    // Clear current contents
     weatherInfoView.renderSpinner();
+    weatherInfoFiveDayView.clear();
+    paginationView.clear();
     // Send search information to model to retreive weather info
     await model.getWeather(city, country);
-    console.log(model.state.weatherSameday);
 
     // Display weather info for today
     weatherInfoView.render(model.state.weatherSameday, model.state.unit);
     //Display weather forecast for 5 days
+
     weatherInfoFiveDayView.render(
       model.getTimeslotsPerPage(),
       model.state.unit
@@ -29,10 +32,6 @@ const controlWeather = async function () {
     console.log(err);
     weatherInfoView.renderError(err);
   }
-};
-
-const controlWeatherFiveDay = function () {
-  weatherInfoFiveDayView.render(model.state.weatherFiveDays, model.state.unit);
 };
 
 const controlUnit = function () {

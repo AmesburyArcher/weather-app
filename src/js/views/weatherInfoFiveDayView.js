@@ -6,6 +6,7 @@ class WeatherInfoFiveDayView extends View {
 
   _generateMarkup() {
     const unit = this._extraParam;
+
     return this._data
       .map(
         entry => `

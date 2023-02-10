@@ -5,11 +5,11 @@ export default class View {
   render(data, extraParam = null) {
     if (!data) return this.renderError();
 
+    this.clear();
     this._data = data;
     this._extraParam = extraParam;
     const markup = this._generateMarkup();
 
-    this.clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
@@ -23,6 +23,7 @@ export default class View {
   }
 
   clear() {
+    console.log(this._parentElement);
     this._parentElement.innerHTML = '';
   }
 
