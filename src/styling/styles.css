@@ -225,6 +225,17 @@ main {
   align-items: center;
 }
 
+.pagBTN {
+  color: var(--colour-light-1);
+  border: none;
+  background-color: transparent;
+}
+
+.pagBTN:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 .other__day__timeslot {
   display: flex;
   flex-direction: column;

@@ -217,6 +217,17 @@ main {
   display: flex;
 }
 
+.pagBTN {
+  color: var(--colour-light-1);
+  background-color: #0000;
+  border: none;
+}
+
+.pagBTN:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 .other__day__timeslot {
   color: var(--colour-light-1);
   width: 100%;
