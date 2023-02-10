@@ -595,8 +595,13 @@ const controlWeather = async function() {
 const controlUnit = function() {
     const currentUnit = _modelJs.state.unit;
     currentUnit === "C" ? _modelJs.state.unit = "F" : _modelJs.state.unit = "C";
+    //Update weather today
+    (0, _weatherInfoViewJsDefault.default).render(_modelJs.state.weatherSameday, _modelJs.state.unit);
+    //Update 5 day weather
+    (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.getTimeslotsPerPage(), _modelJs.state.unit);
     return _modelJs.state.unit;
 };
+const controlPagination = function() {};
 const init = function() {
     (0, _inputViewJsDefault.default).addHandler(controlWeather);
     (0, _unitViewJsDefault.default).addHandler(controlUnit);

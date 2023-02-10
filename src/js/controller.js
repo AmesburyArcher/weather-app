@@ -37,8 +37,16 @@ const controlWeather = async function () {
 const controlUnit = function () {
   const currentUnit = model.state.unit;
   currentUnit === 'C' ? (model.state.unit = 'F') : (model.state.unit = 'C');
+  //Update weather today
+  weatherInfoView.render(model.state.weatherSameday, model.state.unit);
+
+  //Update 5 day weather
+  weatherInfoFiveDayView.render(model.getTimeslotsPerPage(), model.state.unit);
+
   return model.state.unit;
 };
+
+const controlPagination = function () {};
 
 const init = function () {
   inputView.addHandler(controlWeather);
