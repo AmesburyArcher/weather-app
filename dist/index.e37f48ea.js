@@ -957,7 +957,6 @@ class View {
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     clear() {
-        console.log(this._parentElement);
         this._parentElement.innerHTML = "";
     }
     renderError(message = this._errorMessage) {
