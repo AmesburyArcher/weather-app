@@ -27,7 +27,11 @@ const controlWeather = async function () {
       model.state.unit
     );
     // Render page buttons
-    paginationView.render(model.state.page);
+    paginationView.render([
+      model.state.weatherFiveDays,
+      model.state.page,
+      model.state.resPerPage,
+    ]);
   } catch (err) {
     console.log(err);
     weatherInfoView.renderError(err);
@@ -46,11 +50,24 @@ const controlUnit = function () {
   return model.state.unit;
 };
 
-const controlPagination = function () {};
+const controlPagination = function (page) {
+  // Render new results
+  weatherInfoFiveDayView.render(
+    model.getTimeslotsPerPage(page),
+    model.state.unit
+  );
+  // Need access to multiple model states
+  paginationView.render([
+    model.state.weatherFiveDays,
+    model.state.page,
+    model.state.resPerPage,
+  ]);
+};
 
 const init = function () {
   inputView.addHandler(controlWeather);
   unitView.addHandler(controlUnit);
+  paginationView.addHandler(controlPagination);
 };
 
 init();
