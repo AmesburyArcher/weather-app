@@ -91,14 +91,26 @@ export const getTimeslotsPerPage = function (page = state.page) {
   return state.weatherFiveDays.hourlyForecast.slice(start, end);
 };
 
-export const getWeatherOnEntry = async function () {
-  const onSuccess = function (position) {
-    const { latitude, longitude } = position.coords;
-  };
+const getLongAndLat = function () {
+  return new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject)
+  );
+};
 
+export const getWeatherOnEntry = async function () {
   try {
-    if (navigator.geolocation) {
-      navigator.geolocation(function (pos) {});
-    }
-  } catch (err) {}
+    const position = await getLongAndLat();
+    state.page = 1;
+    const { coords } = position;
+    const { latitude, longitude } = coords;
+    const todayURL = `${API_URL_TODAY}lat=${latitude}&lon=${longitude}&appid=${API_KEY}`;
+    const data = await getJSON(todayURL);
+    state.weatherSameday = createWeatherSameDay(data);
+
+    const fiveDaysURL = `${API_URL_5DAY}lat=${latitude}&lon=${longitude}&appid=${API_KEY}`;
+    const data_5_days = await getJSON(fiveDaysURL);
+    state.weatherFiveDays = createWeatherFiveDays(data_5_days);
+  } catch (err) {
+    throw err;
+  }
 };

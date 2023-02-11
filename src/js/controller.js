@@ -5,7 +5,30 @@ import inputView from './views/inputView.js';
 import unitView from './views/unitView.js';
 import paginationView from './views/paginationView.js';
 
-const controlOnEntry = async function () {};
+const controlOnEntry = async function () {
+  try {
+    weatherInfoView.renderSpinner();
+    await model.getWeatherOnEntry();
+
+    weatherInfoView.render(model.state.weatherSameday, model.state.unit);
+    //Display weather forecast for 5 days
+
+    weatherInfoFiveDayView.render(
+      model.getTimeslotsPerPage(),
+      model.state.unit
+    );
+    // Render page buttons
+    paginationView.render([
+      model.state.weatherFiveDays,
+      model.state.page,
+      model.state.resPerPage,
+    ]);
+  } catch (err) {
+    weatherInfoView.renderError(
+      'Location services turned off, unable to load current location weather. Search for a different location above!'
+    );
+  }
+};
 
 const controlWeather = async function () {
   try {
@@ -67,6 +90,7 @@ const controlPagination = function (page) {
 };
 
 const init = function () {
+  controlOnEntry();
   inputView.addHandler(controlWeather);
   unitView.addHandler(controlUnit);
   paginationView.addHandler(controlPagination);

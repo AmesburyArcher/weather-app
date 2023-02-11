@@ -569,7 +569,23 @@ var _unitViewJs = require("./views/unitView.js");
 var _unitViewJsDefault = parcelHelpers.interopDefault(_unitViewJs);
 var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
-const controlOnEntry = async function() {};
+const controlOnEntry = async function() {
+    try {
+        (0, _weatherInfoViewJsDefault.default).renderSpinner();
+        await _modelJs.getWeatherOnEntry();
+        (0, _weatherInfoViewJsDefault.default).render(_modelJs.state.weatherSameday, _modelJs.state.unit);
+        //Display weather forecast for 5 days
+        (0, _weatherInfoFiveDayViewJsDefault.default).render(_modelJs.getTimeslotsPerPage(), _modelJs.state.unit);
+        // Render page buttons
+        (0, _paginationViewJsDefault.default).render([
+            _modelJs.state.weatherFiveDays,
+            _modelJs.state.page,
+            _modelJs.state.resPerPage
+        ]);
+    } catch (err) {
+        (0, _weatherInfoViewJsDefault.default).renderError("Location services turned off, unable to load current location weather. Search for a different location above!");
+    }
+};
 const controlWeather = async function() {
     try {
         // Get search information from input view
@@ -617,6 +633,7 @@ const controlPagination = function(page) {
     ]);
 };
 const init = function() {
+    controlOnEntry();
     (0, _inputViewJsDefault.default).addHandler(controlWeather);
     (0, _unitViewJsDefault.default).addHandler(controlUnit);
     (0, _paginationViewJsDefault.default).addHandler(controlPagination);
@@ -711,13 +728,24 @@ const getTimeslotsPerPage = function(page = state.page) {
     const end = page * state.resPerPage;
     return state.weatherFiveDays.hourlyForecast.slice(start, end);
 };
+const getLongAndLat = function() {
+    return new Promise((resolve, reject)=>navigator.geolocation.getCurrentPosition(resolve, reject));
+};
 const getWeatherOnEntry = async function() {
-    const onSuccess = function(position) {
-        const { latitude , longitude  } = position.coords;
-    };
     try {
-        if (navigator.geolocation) navigator.geolocation(function(pos) {});
-    } catch (err) {}
+        const position = await getLongAndLat();
+        state.page = 1;
+        const { coords  } = position;
+        const { latitude , longitude  } = coords;
+        const todayURL = `${(0, _config.API_URL_TODAY)}lat=${latitude}&lon=${longitude}&appid=${(0, _config.API_KEY)}`;
+        const data = await (0, _helpers.getJSON)(todayURL);
+        state.weatherSameday = createWeatherSameDay(data);
+        const fiveDaysURL = `${(0, _config.API_URL_5DAY)}lat=${latitude}&lon=${longitude}&appid=${(0, _config.API_KEY)}`;
+        const data_5_days = await (0, _helpers.getJSON)(fiveDaysURL);
+        state.weatherFiveDays = createWeatherFiveDays(data_5_days);
+    } catch (err) {
+        throw err;
+    }
 };
 
 },{"./helpers":"hGI1E","./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
