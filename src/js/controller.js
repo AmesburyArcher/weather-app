@@ -37,6 +37,7 @@ const controlWeather = async function () {
     const city = query[0];
     const country = query[1];
     // Clear current contents
+    inputView.unfocus();
     weatherInfoView.renderSpinner();
     weatherInfoFiveDayView.clear();
     paginationView.clear();
@@ -58,7 +59,6 @@ const controlWeather = async function () {
       model.state.resPerPage,
     ]);
   } catch (err) {
-    console.log(err);
     weatherInfoView.renderError(err);
   }
 };

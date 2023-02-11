@@ -10,6 +10,10 @@ class InputView extends View {
     return res;
   }
 
+  unfocus() {
+    this._parentElement.querySelector('.city__form').blur();
+  }
+
   addHandler(handler) {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
