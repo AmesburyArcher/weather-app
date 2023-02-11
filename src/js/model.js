@@ -90,3 +90,15 @@ export const getTimeslotsPerPage = function (page = state.page) {
   const end = page * state.resPerPage;
   return state.weatherFiveDays.hourlyForecast.slice(start, end);
 };
+
+export const getWeatherOnEntry = async function () {
+  const onSuccess = function (position) {
+    const { latitude, longitude } = position.coords;
+  };
+
+  try {
+    if (navigator.geolocation) {
+      navigator.geolocation(function (pos) {});
+    }
+  } catch (err) {}
+};

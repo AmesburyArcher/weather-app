@@ -5,6 +5,8 @@ import inputView from './views/inputView.js';
 import unitView from './views/unitView.js';
 import paginationView from './views/paginationView.js';
 
+const controlOnEntry = async function () {};
+
 const controlWeather = async function () {
   try {
     // Get search information from input view

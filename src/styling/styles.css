@@ -250,6 +250,12 @@ main {
   border-radius: 16px;
 }
 
+.other__day__curWeather {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .icon {
   justify-self: end;
 }
