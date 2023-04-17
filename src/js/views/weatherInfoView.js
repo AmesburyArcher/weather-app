@@ -119,7 +119,7 @@ class WeatherInfoViewToday extends View {
               <line x1="19" y1="6" x2="19" y2="12" />
             </svg>
             <div class="today_temp__max__container">
-              <div class="today__temp__max__label">Minimum Temperature</div>
+              <div class="today__temp__max__label">Maximum Temperature</div>
               <div class="today__temp_max__val">${(unit === 'C'
                 ? this._data.temperature.tempMax - KELVIN
                 : (this._data.temperature.tempMax - KELVIN) * (9 / 5) + 32
